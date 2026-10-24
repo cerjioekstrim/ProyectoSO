@@ -40,4 +40,6 @@ int  thread_create(void (*func)(void));
 void thread_schedule(void);
 void thread_yield(void);
 
+//se implementa en assembly thread_switch.S
+void thread_switch(struct contexto *vieja, struct contexto *nueva);
 #endif
