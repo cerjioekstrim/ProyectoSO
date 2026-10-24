@@ -18,20 +18,20 @@ static void thread_inicio(void) {
 }
 
 int thread_create(void (*func)(void)) {
-    struct hebra *h;
+    struct hebra *h; // puntero a la hebra que vamos a crear
 
-    for (h = tabla; h < &tabla[MAX_HEBRAS]; h++) {
-        if (h->estado == LIBRE)
+    for (h = tabla; h < &tabla[MAX_HEBRAS]; h++) { // buscamos una hebra libre
+        if (h->estado == LIBRE) //
             break;
     }
     if (h == &tabla[MAX_HEBRAS])
         return -1; // tabla llena
 
-    memset(&h->contexto, 0, sizeof(h->contexto));
-    h->func   = func;
-    h->contexto.ra = (uint64)thread_inicio;
-    h->contexto.sp = ((uint64)h->pila + TAM_PILA) & ~0xFUL;
-    h->estado = LISTA;
+    memset(&h->contexto, 0, sizeof(h->contexto)); // inicializamos el contexto a 0
+    h->func   = func; // guardamos la tarea que debe ejecutar
+    h->contexto.ra = (uint64)thread_inicio; // cuando se haga switch, empezará en thread_inicio
+    h->contexto.sp = ((uint64)h->pila + TAM_PILA) & ~0xFUL; // la pila crece hacia abajo, y debe estar alineada a 16 bytes
+    h->estado = LISTA; // la hebra está lista para correr
     return 0;
 }
 

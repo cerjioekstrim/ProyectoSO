@@ -8,7 +8,7 @@
 
 enum estado {LIBRE, LISTA, CORRIENDO};
 
-struct contexto {
+struct contexto { // los registros t y a no se guardan porque pueden ser sobreescritos por la función que se llama.
     uint64 ra;
     uint64 sp;
     uint64 s0;  
@@ -32,8 +32,8 @@ struct hebra {
     char pila[TAM_PILA];
 };
 
-extern struct hebra tabla[MAX_HEBRAS];
-extern struct hebra *actual;
+extern struct hebra tabla[MAX_HEBRAS]; // tabla de hebras para el planificador
+extern struct hebra *actual; // puntero a la hebra que está corriendo actualmente
 
 void thread_init(void);
 int  thread_create(void (*func)(void));
